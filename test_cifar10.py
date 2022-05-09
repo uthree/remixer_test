@@ -8,19 +8,20 @@ import matplotlib.pyplot as plt
 from datasets.cifar10 import trainloader, testloader
 from models.cifar10 import *
 
-models = [RemixerClassificatorSmall, RemixerClassificatorBase, RemixerClassificatorLarge, ConvolutionalClassificator]
+models = [ConvolutionalClassificator, SwinS2MLPClassificatorSmall, SwinS2MLPClassificatorBase, SwinS2MLPClassificatorLarge]
 num_epochs = 100
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 for model in models:
     model = model()
-    print(sum(p.numel() for p in model.parameters()))
+    print(f"{type(model)}: {sum(p.numel() for p in model.parameters())} params.")
+
 
 def main():
     for model_iter, model_class in enumerate(models):
         model = model_class()
         model = model.to(device)
-        optimizer = optim.Adam(model.parameters(), lr=0.001)
+        optimizer = optim.Adam(model.parameters(), lr=1e-4)
         loss_fn = nn.CrossEntropyLoss()
         loss_fn = loss_fn.to(device)
         loss_log = []

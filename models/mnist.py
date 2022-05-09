@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 
-from remixer.remixer import ReMixerImageClassificator
+from remixer.remixer import *
 
 class ConvolutionalClassificator(nn.Module):
     """Some Information about ConvolutionalClassificator"""
@@ -65,4 +65,25 @@ class RemixerClassificatorSmall(nn.Module):
     def forward(self, x):
         x = self.remixer(x)
         return x
-    
+
+class SwinS2MLPClassificatorSmall(nn.Module):
+    def __init__(self):
+        super(SwinS2MLPClassificatorSmall, self).__init__()
+        self.mod = SwinReS2MLP(initial_image_size=28, stages=[2,3,2], channels=[8, 16, 32, 64], mode='downscale', input_channels=3, output_dim=10)
+    def forward(self, x):
+        return self.mod(x)
+
+class SwinS2MLPClassificatorBase(nn.Module):
+    def __init__(self):
+        super(SwinS2MLPClassificatorBase, self).__init__()
+        self.mod = SwinReS2MLP(initial_image_size=28, stages=[4,6,3], channels=[16, 32, 64, 128], mode='downscale', input_channels=3, output_dim=10)
+    def forward(self, x):
+        return self.mod(x)
+
+class SwinS2MLPClassificatorLarge(nn.Module):
+    def __init__(self):
+        super(SwinS2MLPClassificatorLarge, self).__init__()
+        self.mod = SwinReS2MLP(initial_image_size=28, stages=[4,7,4], channels=[32, 64, 128, 256], mode='downscale', input_channels=3, output_dim=10)
+    def forward(self, x):
+        return self.mod(x)
+
