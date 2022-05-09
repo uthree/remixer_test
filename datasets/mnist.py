@@ -11,7 +11,7 @@ trainset = torchvision.datasets.MNIST(root='./data/mnist/',
                                         download=True,
                                         transform=transform)
 trainloader = torch.utils.data.DataLoader(trainset,
-                                            batch_size=100,
+                                            batch_size=200,
                                             shuffle=True,
                                             num_workers=2)
 
